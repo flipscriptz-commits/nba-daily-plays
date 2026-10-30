@@ -174,7 +174,7 @@ details.notes{order:5}
 details.rec .note:first-child h4{font-size:30px;color:var(--gold)}details.rec .note:first-child h4 span{font-size:19px}details.rec .note:first-child{padding:18px 20px}details.notes.rec{order:6}.note.blank{padding:0}@media (max-width:700px){.note.blank{display:none}}@media print{details.rec{display:none!important}}
 @media screen{.leg strong{font-size:22px;line-height:1.1}.leg>div>span{font-size:18px}.leg .live.game{font-size:22px;margin-top:8px}.leg .live.game b{font-size:40px}.leg .live.sm{font-size:22px}.leg .live.sm b{font-size:34px}}
 @media screen{.prop .bk{font-size:15px}.prop .live{font-size:22px}.prop .live b{font-size:38px}.pm-card p{font-size:16px}.pm-card .live{font-size:22px}.pm-card .live b{font-size:38px}.hero .live.game{font-size:26px;margin-top:12px}.hero .live.game b{font-size:48px}.hero .src{font-size:16px}}
-.live .ns,.live .lv{color:#ff3b3b;font-weight:800;font-size:30px!important}.live .ns{color:#7d8596!important;opacity:.75;font-weight:700}.live b{font-size:34px!important}.live b .n{color:var(--win)!important}
+.live .ns,.live .lv{color:#ff3b3b;font-weight:800;font-size:30px!important}.live .ns{color:#7d8596!important;opacity:.75;font-weight:700}.live .lv{font-size:24px!important}.live,.live.sm,.live.game{font-size:22px!important}.live .oc{display:inline-flex;flex-direction:column;line-height:1.15;gap:1px}.live .oc small{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--dim)}.live .oc .clk{font-size:16px;font-weight:700;color:var(--mut);letter-spacing:.02em}.live b{font-size:34px!important;color:var(--ink)!important;font-family:var(--display)!important;font-weight:800!important;align-self:auto!important}.live b .n{color:var(--win)!important;font-size:34px!important;font-family:var(--display)!important;font-weight:800!important}.live .v,.live .v>span{font-size:22px!important;color:#8b93a5!important;font-weight:700!important}.live .v .clk{font-size:16px!important}
 </style></head><body>
 
 
@@ -289,9 +289,9 @@ details.rec .note:first-child h4{font-size:30px;color:var(--gold)}details.rec .n
     <div class="pm">
       <article class="pm-card">
         <div class="row"><h3>James Harden over 4.5 rebounds</h3><span class="big num">+106</span></div>
+        <div class="live" data-player="James Harden" data-game="CLE@ATL" data-stat="reb" data-line="4.5" data-side="over"></div>
         <p>Tip 8:00 PM ET, FanDuel +106 (Covers best-price listing, rechecked 7:15 PM ET; was +102 earlier; bet365 +135 seen at 10:30 AM ET on Steezanomics is no longer on Covers). Highest-probability single above +100 with a real price: rebounds of 2, 5, 8, 3 in his 4 games (over in 2 of 4, average 4.5); Covers model projects 5.04. Thin edge. Replaces Cameron Boozer over 4.5 assists +134 (est. 48%, FanDuel via Dimers only; Covers shows no matching 4.5 line). Other plus-money props checked: Lillard over 4.5 assists +120, Morant over 3.5 rebounds +120, Boozer under 1.5 threes +108, Memphis ML +215 (est. 28%), Kings ML +180 (est. 33%); all lower.</p>
         <div class="es"><b class="hi num">Est. 51%</b> <span style="color:var(--dim);font-size:12px">vs 48.5% implied</span></div>
-        <div class="live" data-player="James Harden" data-game="CLE@ATL" data-stat="reb" data-line="4.5" data-side="over"></div>
       </article>
     </div>
   </section>
@@ -323,7 +323,7 @@ function paintPlayer(e,x,box){var stat=e.getAttribute('data-stat'),line=+e.getAt
  if(!pl||pl.status==='INACTIVE'||!pl.statistics){e.className=base;e.innerHTML='<span class="dot"></span><span>'+(x.gameStatus===3?'DNP (leg may be void)':'Has not played yet')+'</span>';return}
  var v=+pl.statistics[KEY[stat]]||0,fin=x.gameStatus===3,hit=over?v>line:v<line,dead=!over&&v>line,cls=fin?(hit?' ok':' bad'):(dead?' bad':(over&&v>line?' ok':''));
  e.className=base+(x.gameStatus===2?' on':'')+cls;
- e.innerHTML='<span class="dot"></span>'+(x.gameStatus===2?'<span class="lv">Live</span>':'')+'<b><span class="n">'+v+'</span> '+LBL[stat]+'</b><span class="v">'+mins(pl.statistics.minutes)+' min · '+(over?'O':'U')+line+(fin?(hit?' · HIT':' · MISS'):(dead?' · gone over':''))+'</span>'}
+ e.innerHTML='<span class="dot"></span>'+(x.gameStatus===2?'<span class="lv">Live</span>':'')+'<b><span class="n">'+v+'</span> '+LBL[stat]+'</b><span class="v oc"><small>On-Court</small><span>'+mins(pl.statistics.minutes)+' min · '+(over?'O':'U')+line+(fin?(hit?' · HIT':' · MISS'):(dead?' · gone over':''))+'</span><small class="clk">'+((x.gameStatusText||'').trim()||'')+'</small></span>'}
 function tick(){clearTimeout(timer);
  fetch(URL_,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
   if(!d.ok)throw 1;var games=d.games||[],matched=0,live=false;
