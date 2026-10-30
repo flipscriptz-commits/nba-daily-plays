@@ -174,7 +174,7 @@ details.notes{order:5}
 details.rec .note:first-child h4{font-size:30px;color:var(--gold)}details.rec .note:first-child h4 span{font-size:19px}details.rec .note:first-child{padding:18px 20px}details.notes.rec{order:6}.note.blank{padding:0}@media (max-width:700px){.note.blank{display:none}}@media print{details.rec{display:none!important}}
 @media screen{.leg strong{font-size:22px;line-height:1.1}.leg>div>span{font-size:18px}.leg .live.game{font-size:22px;margin-top:8px}.leg .live.game b{font-size:40px}.leg .live.sm{font-size:22px}.leg .live.sm b{font-size:34px}}
 @media screen{.prop .bk{font-size:15px}.prop .live{font-size:22px}.prop .live b{font-size:38px}.pm-card p{font-size:16px}.pm-card .live{font-size:22px}.pm-card .live b{font-size:38px}.hero .live.game{font-size:26px;margin-top:12px}.hero .live.game b{font-size:48px}.hero .src{font-size:16px}}
-.live .ns,.live .lv{color:#ff3b3b;font-weight:800;font-size:30px!important}.live .ns{color:#7d8596!important;opacity:.75;font-weight:700}.live b,.live.ok b,.live.bad b{color:var(--win)!important;font-size:34px!important}
+.live .ns,.live .lv{color:#ff3b3b;font-weight:800;font-size:30px!important}.live .ns{color:#7d8596!important;opacity:.75;font-weight:700}.live b{font-size:34px!important}.live b .n{color:var(--win)!important}
 </style></head><body>
 
 
@@ -316,14 +316,14 @@ function find(g,games){var p=g.split('@');return games.filter(function(x){return
 function reset(e){e.className=e.className.replace(/ ?(on|ok|bad)\b/g,'')}
 function paintGame(e,x){var pick=e.getAttribute('data-pick'),a=x.awayTeam,h=x.homeTeam,pk=pick===h.teamTricode?h:a,ot=pk===h?a:h,lead=pk.score-ot.score,pre=x.gameStatus===1,fin=x.gameStatus===3;
  e.className='live game'+(x.gameStatus===2?' on':'')+(!pre&&lead>0?' ok':(!pre&&lead<0?' bad':''));
- e.innerHTML='<span class="dot"></span><b>'+a.teamTricode+' '+a.score+' - '+h.score+' '+h.teamTricode+'</b><span class="v">'+(pre?'<span class="ns">Not started</span>':(x.gameStatus===2?'<span class="lv">Live</span> · ':'')+(x.gameStatusText||'').trim())+(fin?(lead>0?' · pick won':' · pick lost'):'')+'</span>'}
+ e.innerHTML='<span class="dot"></span>'+(x.gameStatus===2?'<span class="lv">Live</span>':'')+'<b>'+a.teamTricode+' <span class="n">'+a.score+'</span> - <span class="n">'+h.score+'</span> '+h.teamTricode+'</b><span class="v">'+(pre?'<span class="ns">Not started</span>':(x.gameStatusText||'').trim())+(fin?(lead>0?' · pick won':' · pick lost'):'')+'</span>'}
 function paintPlayer(e,x,box){var stat=e.getAttribute('data-stat'),line=+e.getAttribute('data-line'),over=e.getAttribute('data-side')==='over',want=norm(e.getAttribute('data-player')),sm=e.className.indexOf(' sm')>-1,base='live'+(sm?' sm':'');
  if(x.gameStatus===1){e.className=base;e.innerHTML='<span class="dot"></span><span class="ns">Not started</span>';return}
  var pl=null;if(box)['homeTeam','awayTeam'].forEach(function(t){((box[t]||{}).players||[]).forEach(function(p){if(norm(p.name)===want)pl=p})});
  if(!pl||pl.status==='INACTIVE'||!pl.statistics){e.className=base;e.innerHTML='<span class="dot"></span><span>'+(x.gameStatus===3?'DNP (leg may be void)':'Has not played yet')+'</span>';return}
  var v=+pl.statistics[KEY[stat]]||0,fin=x.gameStatus===3,hit=over?v>line:v<line,dead=!over&&v>line,cls=fin?(hit?' ok':' bad'):(dead?' bad':(over&&v>line?' ok':''));
  e.className=base+(x.gameStatus===2?' on':'')+cls;
- e.innerHTML='<span class="dot"></span><b>'+v+' '+LBL[stat]+'</b><span class="v">'+(x.gameStatus===2?'<span class="lv">Live</span> · ':'')+mins(pl.statistics.minutes)+' min · '+(over?'O':'U')+line+(fin?(hit?' · HIT':' · MISS'):(dead?' · gone over':''))+'</span>'}
+ e.innerHTML='<span class="dot"></span>'+(x.gameStatus===2?'<span class="lv">Live</span>':'')+'<b><span class="n">'+v+'</span> '+LBL[stat]+'</b><span class="v">'+mins(pl.statistics.minutes)+' min · '+(over?'O':'U')+line+(fin?(hit?' · HIT':' · MISS'):(dead?' · gone over':''))+'</span>'}
 function tick(){clearTimeout(timer);
  fetch(URL_,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
   if(!d.ok)throw 1;var games=d.games||[],matched=0,live=false;
