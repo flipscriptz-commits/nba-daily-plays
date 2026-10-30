@@ -387,4 +387,7 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)tick
 [].slice.call(document.querySelectorAll('.est')).forEach(function(e){if(e.closest&&e.closest('.track'))return;var m=/(\d+(?:\.\d+)?)\s*%/.exec(e.textContent);if(m)e.style.color=c(+m[1])});
 var r=document.querySelector('.hero .ring'),b=r&&r.querySelector('.c b'),m=b&&/(\d+(?:\.\d+)?)/.exec(b.textContent);if(m){var k=c(+m[1]),f=r.querySelector('.fg');b.style.color=k;if(f){f.style.stroke=k;f.style.filter='drop-shadow(0 0 8px '+k.replace('rgb(','rgba(').replace(')',',.45)')+')'}}})();
 </script>
+<script>/* One section open at a time: opening a section collapses the others (user clicks only). */
+(function(){var sel='details.sec-dd,details.notes';[].slice.call(document.querySelectorAll(sel)).forEach(function(d){var s=d.querySelector(':scope>summary');if(!s)return;s.addEventListener('click',function(){if(d.open)return;[].slice.call(document.querySelectorAll(sel)).forEach(function(o){if(o!==d&&o.open)o.open=false})})})})();
+</script>
 </body></html>
